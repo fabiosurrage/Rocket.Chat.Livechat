@@ -112,8 +112,10 @@ export const Screen = ({
 	queueInfo,
 	dismissNotification,
 	triggered = false,
+	handleKeyDown,
+	handleAppRef,	
 }) => (
-	<div className={createClassName(styles, 'screen', { minimized, expanded, windowed, triggered })}>
+	<div className={createClassName(styles, 'screen', { minimized, expanded, windowed, triggered })} ref={handleAppRef} onKeyDown={handleKeyDown}>
 		<CssVar theme={theme} />
 		{triggered && <Button onClick={onMinimize} className={createClassName(styles, 'screen__chat-close-button')} icon={<CloseIcon />} label={i18next.t('close_chat')}>Close</Button>}
 		<div className={createClassName(styles, 'screen__inner', { fitTextSize: triggered }, [className])}>
