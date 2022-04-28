@@ -3,7 +3,7 @@ import format from 'date-fns/format';
 import isToday from 'date-fns/isToday';
 import { h } from 'preact';
 import { withTranslation } from 'react-i18next';
-
+import { getDateFnsLocale } from '../../../lib/locale';
 import { getAttachmentUrl, memo, normalizeTransferHistoryMessage, resolveDate } from '../../helpers';
 import { default as AudioAttachment } from '../AudioAttachment';
 import { FileAttachment } from '../FileAttachment';
@@ -85,10 +85,11 @@ const renderContent = ({
 ].filter(Boolean);
 
 const resolveWebRTCEndCallMessage = ({ webRtcCallEndTs, ts, t }) => {
+	const locale = getDateFnsLocale();	
 	const callEndTime = resolveDate(webRtcCallEndTs);
 	const callStartTime = resolveDate(ts);
-	const callDuration = formatDistance(callEndTime, callStartTime);
-	const time = format(callEndTime, isToday(callEndTime) ? 'HH:mm' : 'dddd HH:mm');
+	const callDuration = formatDistance(callEndTime, callStartTime, {locale});
+	const time = format(callEndTime, isToday(callEndTime) ? 'HH:mm' : 'dddd HH:mm', {locale});
 	return t('call_end_time', { time, callDuration });
 };
 
