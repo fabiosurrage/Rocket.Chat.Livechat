@@ -23,6 +23,7 @@
         "email": "E-mail",
         "enable_notifications": "Habilitar notificações",
         "error_closing_chat": "Erro ao fechar o chat.",
+        "error_getting_call_alert": "Ocorreu um erro ao receber uma notificação de chamada.",
         "error_removing_user_data": "Erro ao remover os dados do usuário.",
         "error_starting_a_new_conversation_reason": "Erro ao iniciar nova conversa: {{reason}}",
         "expand_chat": "Expandir chat",
