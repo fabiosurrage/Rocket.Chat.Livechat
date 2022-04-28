@@ -207,7 +207,7 @@ class Chat extends Component {
 						handleEmojiClick={this.handleEmojiClick}
 						pre={(
 							<ComposerActions>
-								<ComposerAction className={createClassName(styles, 'emoji-picker-icon')} onClick={this.toggleEmojiPickerState}>
+								<ComposerAction className={createClassName(styles, 'emoji-picker-icon')} onClick={this.toggleEmojiPickerState} text={t('choose_emoji')}>
 									<EmojiIcon width={20} height={20} />
 								</ComposerAction>
 							</ComposerActions>
