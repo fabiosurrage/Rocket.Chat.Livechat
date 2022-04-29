@@ -1,10 +1,11 @@
 import { formatDistance } from 'date-fns';
 import format from 'date-fns/format';
 import isToday from 'date-fns/isToday';
+import i18next from 'i18next';
 import { h } from 'preact';
 import { withTranslation } from 'react-i18next';
 import { getDateFnsLocale } from '../../../lib/locale';
-import { getAttachmentUrl, memo, normalizeTransferHistoryMessage, resolveDate } from '../../helpers';
+import { getAttachmentUrl, memo, normalizeTransferHistoryMessage, resolveDate, createClassName } from '../../helpers';
 import { default as AudioAttachment } from '../AudioAttachment';
 import { FileAttachment } from '../FileAttachment';
 import { ImageAttachment } from '../ImageAttachment';
@@ -13,7 +14,7 @@ import MessageBlocks from '../MessageBlocks';
 import { MessageBubble } from '../MessageBubble';
 import { MessageContainer } from '../MessageContainer';
 import { MessageContent } from '../MessageContent';
-import { MessageText } from '../MessageText';
+import { MessageTime, parseDate } from '../MessageTime';
 import MessageTime from '../MessageTime';
 import VideoAttachment from '../VideoAttachment';
 import {
@@ -28,6 +29,7 @@ import {
 	MESSAGE_TYPE_LIVECHAT_TRANSFER_HISTORY,
 	MESSAGE_WEBRTC_CALL,
 } from '../constants';
+import styles from './styles.scss';
 
 const renderContent = ({
 	text,
@@ -39,6 +41,8 @@ const renderContent = ({
 	attachmentResolver,
 	mid,
 	rid,
+	username,
+	time,
 }) => [
 	...(attachments || [])
 		.map((attachment) =>
@@ -72,6 +76,12 @@ const renderContent = ({
 		),
 	text && (
 		<MessageBubble inverse={me} quoted={quoted} system={system}>
+			{!system && (
+				<span className={createClassName(styles, 'message--sr-only')}>
+					{me ? `${ i18next.t('i_say') } ` : `${ username } ${ i18next.t('says') } `}
+					{`${ parseDate(time) }:`}
+				</span>
+			)}			
 			<MessageText text={text} system={system} />
 		</MessageBubble>
 	),
@@ -151,6 +161,8 @@ const Message = memo(({
 				mid: message._id,
 				rid: message.rid,
 				attachmentResolver,
+				username: message.u.name || message.u.username,
+				time: message.ts,
 			})}
 		</MessageContent>
 
