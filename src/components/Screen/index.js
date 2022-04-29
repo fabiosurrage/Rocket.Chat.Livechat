@@ -126,7 +126,7 @@ export class Screen extends Component {
 
 	handleOnRestore = () => {
 		this.props.onRestore();
-		addFocusFirstElement(this.screenRef);
+		this.handleFirstElementFocused();
 	}
 
 	handleOnMinimize = () => {
@@ -134,9 +134,18 @@ export class Screen extends Component {
 		this.buttonRef.base.focus();
 	}
 
+	handleFirstElementFocused = () => {
+		const inputElement = this.screenRef.querySelector('div[contenteditable="true"]');
+		if (inputElement) {
+			inputElement.focus();
+		} else {
+			addFocusFirstElement(this.screenRef);
+		}
+	}
+
 	componentDidUpdate() {
 		if (!this.props.minimized && !this.props.windowed && this.state.opened !== !this.props.minimized) {
-			addFocusFirstElement(this.screenRef);
+			this.handleFirstElementFocused();
 		}
 
 		if (this.state.opened !== !this.props.minimized) {
