@@ -75,6 +75,14 @@ export class ConfirmationModal extends Component {
 		this.confirmationModalRef = ref;
 	}
 
+	handleCancel = () => {
+		const { focusRef, onCancel } = this.props;
+		if (focusRef) {
+			focusRef.focus();
+		}
+		onCancel();
+	}
+
 	handleKeyDown = (event) => {
 		const { key } = event;
 
@@ -83,7 +91,7 @@ export class ConfirmationModal extends Component {
 				handleTabKey(event, this.confirmationModalRef.base);
 				break;
 			case 'Escape':
-				this.props.onCancel();
+				this.handleCancel();
 				break;
 			default:
 				break;
@@ -107,7 +115,7 @@ export class ConfirmationModal extends Component {
 	    <Modal open animated dismissByOverlay={false} onkeydown={this.handleKeyDown} ref={this.handleRef} role='dialog' aria-describedby='chat-confirmation-modal' {...props}>
 			<Modal.Message>{text}</Modal.Message>
 			<ButtonGroup>
-				<Button outline secondary onClick={onCancel}>{cancelButtonText}</Button>
+				<Button outline secondary onClick={this.handleCancel}>{cancelButtonText}</Button>
 				<Button danger onClick={onConfirm}>{confirmButtonText}</Button>
 			</ButtonGroup>
 		</Modal>
