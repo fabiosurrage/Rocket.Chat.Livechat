@@ -101,6 +101,13 @@ export class Screen extends Component {
 		'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select, div[contenteditable="true"]',
 	);
 
+	addFocusFirstElement = () => {
+		const focusableElements = this.getFocusableElements();
+		if (focusableElements.length > 0) {
+			focusableElements[0].focus();
+		}
+	}
+
 	handleTabKey = (e) => {
 		const focusableElements = this.getFocusableElements();
 
@@ -149,7 +156,7 @@ export class Screen extends Component {
 
 	handleOnRestore = () => {
 		this.props.onRestore();
-		this.buttonRef.base.focus();
+		this.addFocusFirstElement();
 	}
 
 	handleOnMinimize = () => {
@@ -157,9 +164,9 @@ export class Screen extends Component {
 		this.buttonRef.base.focus();
 	}
 
-	componentDidMount() {
-		if (!this.props.minimized) {
-			this.buttonRef.base.focus();
+	componentDidUpdate() {
+		if (!this.props.minimized && !this.props.windowed) {
+			this.addFocusFirstElement();
 		}
 	}
 
